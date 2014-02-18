@@ -1,7 +1,7 @@
 class App < ActiveRecord::Base
   before_create :rehash_token
-
-  has_many :profiles
+  has_many :file_sources, :dependent => :destroy
+  has_many :profiles, :dependent => :destroy
 
   validates :name, presence: true, uniqueness: true
 

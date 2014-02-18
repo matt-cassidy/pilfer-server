@@ -6,12 +6,17 @@ describe Profile do
     File.read(Rails.root.join(*%w(spec features api support profile.json)))
   }
 
+  let(:app) {
+    App.create(:name => 'Name')
+  }
+
   subject {
     Profile.create!(hostname:     profile_data['hostname'],
                     pid:          profile_data['pid'],
                     description:  profile_data['description'],
                     payload:      profile_data['profile'],
-                    file_sources: profile_data['file_sources'])
+                    file_sources: profile_data['file_sources'],
+                    app_id:       app.id)
   }
 
   its(:hostname)     { should eq('52c8ede0-6f4a-479a-ad2e-d0eaaec9a3e4') }
