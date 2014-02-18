@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140218015346) do
+ActiveRecord::Schema.define(version: 20140218035408) do
 
   create_table "apps", force: true do |t|
     t.string   "name"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20140218015346) do
     t.datetime "updated_at"
     t.string   "description"
     t.text     "file_sources"
+    t.datetime "profiled_at"
   end
 
   add_index "profiles", ["app_id"], name: "index_profiles_on_app_id"

@@ -5,11 +5,13 @@ class Profile < ActiveRecord::Base
   belongs_to :app
 
   has_many :file_profiles, :dependent => :destroy
+  has_many :file_line_profiles, :through => :file_profiles
 
   scope :latest, -> { limit(50).order('id DESC') }
 
   default_scope includes(:file_profiles => :file_line_profiles)
 
+  before_validation :set_profiled_at
   after_create :to_relational_models!
 
   def total_time
@@ -54,5 +56,11 @@ class Profile < ActiveRecord::Base
 
   def to_relational_models!
     self.class.to_relational_models!(self)
+  end
+
+  def set_profiled_at
+    timestamp = payload['timestamp']
+    return if timestamp.nil?
+    self.profiled_at = DateTime.strptime(payload['timestamp'].to_s, '%s')
   end
 end
