@@ -8,14 +8,13 @@
     </tr>
   </thead>
   <tbody>
-    <% @sorted_profile.each do |filename, file_profile| %>
+    <% @sorted_profile.each do |file_profile| %>
     <tr class="<%= file_profile_class(file_profile) %>">
-      <td class="wall-time"><%= profile_time(file_profile['total']) %></td>
-      <td class="cpu-time"><%= profile_time(file_profile['total_cpu']) %></td>
-      <td class="cpu-time"><%= profile_time(file_profile['total'] -
-                             file_profile['total_cpu']) %></td>
-      <td><%= link_to filename, file_app_profile_path(@app, @profile,
-                                                      :filename => filename) %></td>
+      <td class="wall-time"><%= profile_time(file_profile.total) %></td>
+      <td class="cpu-time"><%= profile_time(file_profile.total_cpu) %></td>
+      <td class="cpu-time"><%= profile_time(file_profile.idle_time) %></td>
+      <td><%= link_to file_profile.file_name, file_app_profile_path(@app, @profile,
+                                                      :filename => file_profile.file_name) %></td>
     </tr>
     <% end %>
   </tbody>

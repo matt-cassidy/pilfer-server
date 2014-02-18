@@ -34,8 +34,8 @@ class ProfilesController < ApplicationController
 
   def file
     @filename     = params[:filename]
-    @file_profile = @profile.payload['files'][@filename]
-    @file_source  = @profile.file_sources[@filename]
+    @file_profile = @profile.file_profiles.by_file_name(@filename).first
+    @file_source  = @file_profile.file_source.contents
   end
 
   private
@@ -48,32 +48,8 @@ class ProfilesController < ApplicationController
     @profile = @app.profiles.find(params[:id])
   end
 
-  def profile_value_for_sort(file_profile, sort, summary)
-    if summary == 'exclusive'
-      if sort == 'idle'
-        idle = file_profile['exclusive'] - file_profile['exclusive_cpu']
-        idle = 0 if idle < 0
-      elsif sort == 'cpu'
-        cpu = file_profile['exclusive_cpu']
-      else
-        wall = file_profile['exclusive']
-      end
-    else
-      if sort == 'idle'
-        idle = file_profile['total'] - file_profile['total_cpu']
-        idle = 0 if idle < 0
-      elsif sort == 'cpu'
-        cpu = file_profile['total_cpu']
-      else
-        wall = file_profile['total']
-      end
-    end
-  end
-
   def sorted_profile(profile, sort, summary)
-    return [] unless profile.payload and profile.payload['files']
-    profile.payload['files'].sort_by do |filename, file_profile|
-      profile_value_for_sort(file_profile, sort, summary)
-    end.reverse
+    return [] unless profile.file_profiles.any?
+    profile.file_profiles.sort_by_summary_and_value(summary,sort).to_a
   end
 end
