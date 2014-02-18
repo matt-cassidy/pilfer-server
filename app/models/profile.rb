@@ -9,7 +9,7 @@ class Profile < ActiveRecord::Base
 
   scope :latest, -> { limit(50).order('id DESC') }
 
-  default_scope includes(:file_profiles => :file_line_profiles)
+  default_scope { includes(:file_profiles => :file_line_profiles) }
 
   before_validation :set_profiled_at
   after_create :to_relational_models!
@@ -24,6 +24,10 @@ class Profile < ActiveRecord::Base
 
   def idle_time
     [ 0, total_time - cpu_time ].max
+  end
+
+  def file_profile_by_name(name)
+    file_profiles.find { |file| file.file_name == name }
   end
 
   def self.to_relational_models!(profile)

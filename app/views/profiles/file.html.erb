@@ -1,4 +1,4 @@
-<h3><%= @filename %></h3>
+<h3><%= @file_profile.file_name %></h3>
 
 <table class="line-profile table table-bordered">
   <thead>
@@ -12,48 +12,38 @@
   </thead>
   <tr>
     <%
-        line_data = @file_source.split("\n").
-          each_with_index.
-          each_with_object({ :wall  => [],
-                             :cpu   => [],
-                             :idle  => [],
-                             :calls => []}) do |(line, index), data|
-            data[:wall]  << profile_line_wall_time(@file_profile, index)
-            data[:cpu]   << profile_line_cpu_time(@file_profile, index)
-            data[:idle]  << profile_line_idle_time(@file_profile, index)
-            data[:calls] << profile_line_calls(@file_profile, index)
-          end
+        summary = @file_profile.summary
     %>
     <td class="stats wall-time">
 <pre>
-<%- line_data[:wall].each_with_index do |datum, index| -%>
+<%- summary.wall.each_with_index do |datum, index| -%>
 <span class="line-<%= index %>"><%= profile_time(datum) %></span>
 <%- end -%>
 </pre>
     </td>
     <td class="stats cpu-time">
 <pre>
-<%- line_data[:cpu].each_with_index do |datum, index| -%>
+<%- summary.cpu.each_with_index do |datum, index| -%>
 <span class="line-<%= index %>"><%= profile_time(datum) %></span>
 <%- end -%>
 </pre>
     </td>
     <td class="stats cpu-time">
 <pre>
-<%- line_data[:idle].each_with_index do |datum, index| -%>
+<%- summary.idle.each_with_index do |datum, index| -%>
 <span class="line-<%= index %>"><%= profile_time(datum) %></span>
 <%- end -%>
 </pre>
     </td>
     <td class="stats">
 <pre>
-<%- line_data[:calls].each_with_index do |datum, index| -%>
+<%- summary.calls.each_with_index do |datum, index| -%>
 <span class="line-<%= index %>"><%= datum %></span>
 <%- end -%>
 </pre>
     </td>
     <td>
-      <%= raw(Pygments.highlight(@file_source, :lexer => 'ruby')) %>
+      <%= raw(Pygments.highlight(@file_profile.contents, :lexer => 'ruby')) %>
     </td>
   </tr>
 </table>

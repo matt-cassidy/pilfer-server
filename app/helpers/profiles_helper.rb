@@ -11,6 +11,7 @@ module ProfilesHelper
   end
 
   def profile_time_default(microseconds)
+    return unless microseconds
     number_to_human(microseconds / 1000.0,
                     precision: 2,
                     significant: false,

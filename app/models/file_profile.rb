@@ -3,7 +3,7 @@ class FileProfile < ActiveRecord::Base
   belongs_to :file_source
   has_many :file_line_profiles, :dependent => :destroy
 
-  delegate :file_name, :to => :file_source
+  delegate :file_name, :contents, :to => :file_source
 
   def idle_time
     calculate_idle total, total_cpu
@@ -37,6 +37,21 @@ class FileProfile < ActiveRecord::Base
     end
   end
 
+  def summary
+    SummarizedFileProfile.new(each_line)
+  end
+
+  def each_line
+    line_number_and_profile = file_line_profiles.each_with_object({}) do |profile, hsh|
+      hsh[profile.line_number] = profile
+    end
+
+    file_source
+    .each_line
+    .map do |line, index|
+      line_number_and_profile[index]
+    end
+  end
 
   private
 

@@ -33,9 +33,7 @@ class ProfilesController < ApplicationController
   end
 
   def file
-    @filename     = params[:filename]
-    @file_profile = @profile.file_profiles.by_file_name(@filename).first
-    @file_source  = @file_profile.file_source.contents
+    @file_profile = @profile.file_profile_by_name(params[:filename])
   end
 
   private
@@ -50,6 +48,6 @@ class ProfilesController < ApplicationController
 
   def sorted_profile(profile, sort, summary)
     return [] unless profile.file_profiles.any?
-    profile.file_profiles.sort_by_summary_and_value(summary,sort).to_a
+    profile.file_profiles.sort_by_summary_and_value(summary,sort)
   end
 end

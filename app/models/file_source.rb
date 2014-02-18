@@ -21,6 +21,10 @@ class FileSource < ActiveRecord::Base
     Digest::MD5.hexdigest("#{file_name}:#{contents}").encode('UTF-8')
   end
 
+  def each_line
+    contents.split("\n").each_with_index
+  end
+
   protected
 
   def set_hashed_contents!
