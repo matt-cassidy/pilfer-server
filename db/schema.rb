@@ -9,30 +9,33 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130314000029) do
+ActiveRecord::Schema.define(version: 20130314000029) do
 
-  create_table "apps", :force => true do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "apps", force: true do |t|
     t.string   "name"
     t.string   "token"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "apps", ["token"], :name => "index_apps_on_token", :unique => true
+  add_index "apps", ["token"], name: "index_apps_on_token", unique: true, using: :btree
 
-  create_table "profiles", :force => true do |t|
+  create_table "profiles", force: true do |t|
     t.integer  "app_id"
     t.string   "hostname"
     t.string   "pid"
     t.text     "payload"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "description"
     t.text     "file_sources"
   end
 
-  add_index "profiles", ["app_id"], :name => "index_profiles_on_app_id"
+  add_index "profiles", ["app_id"], name: "index_profiles_on_app_id", using: :btree
 
 end

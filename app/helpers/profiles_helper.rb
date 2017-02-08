@@ -7,7 +7,7 @@ module ProfilesHelper
                     precision:   2,
                     significant: false,
                     strip_insignificant_zeros: false,
-                    units:       { unit: 'ms', thousand: 's' })
+                    units:       { unit: 'ms'})
   end
 
   def profile_class(profile)

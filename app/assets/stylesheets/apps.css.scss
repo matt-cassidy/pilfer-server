@@ -7,7 +7,7 @@ body.cpu-time {
   th.wall-time, td.wall-time { display: none; }
 }
 
-th.fill-column { width: 100%; }
+th.fill-column { width: 1500%; }
 td { white-space: nowrap; }
 
 table.line-profile {
@@ -43,6 +43,10 @@ table.line-profile {
       padding: 0;
       word-break: normal;
       word-wrap: normal;
+    }
+
+    .highlight pre {
+      width: 1500%;
     }
   }
 }

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3'
+ruby '2.1.7'
 
 gem 'rails', '~> 4.0.0'
 
@@ -9,10 +9,11 @@ gem 'pygments.rb'
 gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'warden-github'
+gem 'passenger'
 
 group :development do
   gem 'foreman'
-  gem 'sqlite3'
+  gem 'pg'
 end
 
 gem 'coffee-rails', '~> 4.0.0'
@@ -20,7 +21,7 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', :platforms => :ruby
+gem 'therubyracer', '~> 0.12.1'
 
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.0.1'
